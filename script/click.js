@@ -12,9 +12,9 @@ Metronome.prototype = {
     this.stopBar();
   },
   mainLoop: function () {
-    var click = this;
-    this.timeout = window.setTimeout(function() {
-      click.runMainLoop();
+    var metronome = this;
+    this.timeout = window.setTimeout(function () {
+      metronome.runMainLoop();
     }, this.barInterval());  
     return this;
   },
@@ -29,15 +29,15 @@ Metronome.prototype = {
     var metronome = this;
     metronome.barNotes = [];
     for (var i = 0; i < metronome.meter('beat'); i++) {
-      (function(i) {
-        metronome.barNotes[i] = window.setTimeout(function() {
+      (function (i) {
+        metronome.barNotes[i] = window.setTimeout(function () {
           metronome.playNote(i);
         },i*metronome.temp()/metronome.meter('value'))
       })(i);
     }
   }
 }
-function Metronome(rateWrapper, meterWrapper) {
+function Metronome (rateWrapper, meterWrapper) {
   this.rate         = rateWrapper;
   this.meterOptions = meterWrapper;
   this.stopped      = true;
@@ -48,18 +48,18 @@ function Metronome(rateWrapper, meterWrapper) {
   this.sound('low');
   return this;
 };
-Metronome.prototype.playNote = function(index) {
+Metronome.prototype.playNote = function (index) {
   if (index == 0) {
     this.sound('high').play();
   } else {
     this.sound('low').play();
   }
 };
-Metronome.prototype.sound = function(height){
+Metronome.prototype.sound = function (height) {
   this[height] = this[height] || new Audio("audio/" + height + browserFormat());
   return this[height];
 };
-Metronome.prototype.barInterval = function (){
+Metronome.prototype.barInterval = function () {
   if (this.justStarted) {
     this.justStarted = false;
     return 0;
@@ -76,18 +76,18 @@ Metronome.prototype.temp = function () {
   this.tempValue = 60/this.bpm*1000*4;
   return this.tempValue;
 };
-Metronome.prototype.stopBar = function() {
+Metronome.prototype.stopBar = function () {
   for (var i = 0; i < this.barNotes.length; i++) 
     window.clearTimeout(this.barNotes[i]);
 };
-Metronome.prototype.listenEvents = function() {
+Metronome.prototype.listenEvents = function () {
   var metronome = this;
-  metronome.meterOptions.find('select').change(function() {
+  metronome.meterOptions.find('select').change(function () {
     var optionName = $(this).attr('id').split("note_")[1];
     var optionValue = parseInt($(this).find('option:selected').text());
     metronome[optionName] = optionValue;
   });
-  metronome.rate.bind('keyup change input', function() {
+  metronome.rate.bind('keyup change input', function () {
     metronome.bpm = parseInt(this.value);
   });
 };
