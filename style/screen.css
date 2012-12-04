@@ -10,25 +10,3 @@ select {width: 80px;}
   margin: 20px 0;
   overflow: hidden;
 }
-#sequencer ul {
-  font-size: 0;
-  margin-bottom: 10px;
-  margin-left: -5px;
-  padding: 0;
-}
-#sequencer li {
-  background-color: #ccc;
-  border-radius: 3px;
-  display: inline-block;
-  height: 20px;
-  list-style: none;
-  margin-left: 5px;
-  width: 45px;
-  vertical-align: top;
-}
-#sequencer li[data-value='1'] {
-  background-color: #666;
-}
-#sequencer li#on {
-  background-color: #00db52;
-}
