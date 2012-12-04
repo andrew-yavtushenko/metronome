@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+<meta content="utf-8" http-equiv="encoding">
+<title>Click</title>
+<script type="text/javascript" src='script/jquery-1.8.3.js'></script>
+<script type="text/javascript" src='bootstrap/js/bootstrap.min.js'></script>
+<script type="text/javascript" src='script/click.js'></script>
+<script type="text/javascript" src='script/app.js'></script>
+<link rel="stylesheet" type="text/css" href="style/normalize.css">
+<link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap-responsive.min.css">
+<link rel="stylesheet" type="text/css" href="style/screen.css">
+</head>
+<body>
+  <div class="wrapper">
+    <h1>Metronome</h1>
+    <div class="controls">
+      <div id='meter' class='row'>
+        <div class='span2'>
+          <select id='note_beat' classs='input-small'>
+            <option>1</option>
+            <option>2</option>
+            <option>3</option>
+            <option selected='selected'>4</option>
+            <option>5</option>
+            <option>6</option>
+            <option>7</option>
+            <option>8</option>
+            <option>9</option>
+            <option>11</option>
+            <option>12</option>
+            <option>13</option>
+            <option>14</option>
+            <option>15</option>
+            <option>16</option>
+          </select>
+          <select id='note_value'>
+            <option>1</option>
+            <option>2</option>
+            <option selected='selected'>4</option>
+            <option>8</option>
+            <option>16</option>
+          </select>
+        </div>
+        <div class='span2'>
+          <div class="speed input-append">
+            <input id="rate" type="number" value="120"/>
+            <a href="#" id='start' class='btn'>start</a>
+            <a href="#" id='stop' class='btn'>stop</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
