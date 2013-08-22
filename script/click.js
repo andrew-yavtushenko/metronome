@@ -57,20 +57,20 @@ Metronome.prototype.playNote = function (index) {
 };
 Metronome.prototype.sound = function (height) {
   window.AudioContext = window.AudioContext || window.webkitAudioContext;
-  this.context = new AudioContext();
+  window.context = new AudioContext();
   var request = new XMLHttpRequest();
   url = "audio/" + height + browserFormat();
   request.open('GET', url, true);
   request.responseType = 'arraybuffer';
   request.onload = function() {
-    context.decodeAudioData(request.response, function(buffer) {
+    window.context.decodeAudioData(request.response, function(buffer) {
       this[height] = buffer;
     }, onError);
   }
   this.playSound = function(buffer) {
-    var source = context.createBufferSource();
+    var source = window.context.createBufferSource();
     source.buffer = buffer;
-    source.connect(context.destination);
+    source.connect(window.context.destination);
     source.start(0);
   };
   return this[height];
