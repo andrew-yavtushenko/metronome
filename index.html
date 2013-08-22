@@ -10,15 +10,15 @@
 <script type="text/javascript" src='script/app.js'></script>
 <link rel="stylesheet" type="text/css" href="style/normalize.css">
 <link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.min.css">
-<link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap-responsive.min.css">
-<link rel="stylesheet" type="text/css" href="style/screen.css">
+<!-- <link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap-responsive.min.css">
+ --><link rel="stylesheet" type="text/css" href="style/screen.css">
 </head>
 <body>
   <div class="wrapper">
     <h1>Metronome</h1>
     <div class="controls">
       <div id='meter' class='row'>
-        <div class='span2'>
+        <div class='span3'>
           <select id='note_beat' classs='input-small'>
             <option>1</option>
             <option>2</option>
@@ -44,7 +44,7 @@
             <option>16</option>
           </select>
         </div>
-        <div class='span2'>
+        <div class='span3'>
           <div class="speed input-append">
             <input id="rate" type="number" value="120" min='40' max='240'/>
             <a href="#" id='start' class='btn'>start</a>

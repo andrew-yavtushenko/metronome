@@ -1,3 +1,23 @@
+window.AudioContext = window.AudioContext || window.webkitAudioContext;
+var context = new AudioContext();
+
+function createNewSound(height, parent) {
+  var url = 'audio/' + height + browserFormat();
+  var request = new XMLHttpRequest();
+  request.open('GET', url, true);
+  request.responseType = 'arraybuffer';
+
+  function onError (event) {
+    console.log(event);
+  }
+
+  request.onload = function() {
+    context.decodeAudioData(request.response, function(buffer) {
+      parent.sound[height] = buffer;
+    }, onError);
+  }
+  request.send();
+};
 Metronome.prototype = {
   start: function () {
     if (this.stopped == true) {
@@ -43,22 +63,32 @@ function Metronome (rateWrapper, meterWrapper) {
   this.stopped      = true;
   this.justStarted  = true;
   this.listenEvents();
-  this.sound('high');
-  this.sound('med');
-  this.sound('low');
+  this.sound = {};
+  createNewSound('high', this);
+  createNewSound('med', this);
+  createNewSound('low', this);
   return this;
 };
 Metronome.prototype.playNote = function (index) {
   if (index == 0) {
-    this.sound('high').play();
+    this.playSound('high');
   } else {
-    this.sound('low').play();
+    this.playSound('low');
   }
 };
-Metronome.prototype.sound = function (height) {
-  this[height] = this[height] || new Audio("audio/" + height + browserFormat());
-  return this[height];
-};
+Metronome.prototype.playSound = function (buffer) {
+  var source = context.createBufferSource();
+  source.buffer = this.sound[buffer];
+  source.connect(context.destination);
+  if (!source.start) {
+    source.start = source.noteOn;
+  }
+  source.start(0);
+}
+// Metronome.prototype.sound = function (height) {
+//   this.sound = {};
+//   this[height] = this[height] || new Audio("audio/" + height + browserFormat());
+// };
 Metronome.prototype.barInterval = function () {
   if (this.justStarted) {
     this.justStarted = false;
