@@ -50,29 +50,13 @@ function Metronome (rateWrapper, meterWrapper) {
 };
 Metronome.prototype.playNote = function (index) {
   if (index == 0) {
-    this.playSound(this.sound('high'));
+    this.sound('high').play();
   } else {
-    this.playSound(this.sound('low'));
+    this.sound('low').play();
   }
 };
 Metronome.prototype.sound = function (height) {
-  window.AudioContext = window.AudioContext || window.webkitAudioContext;
-  window.context = new AudioContext();
-  var request = new XMLHttpRequest();
-  url = "audio/" + height + browserFormat();
-  request.open('GET', url, true);
-  request.responseType = 'arraybuffer';
-  request.onload = function() {
-    window.context.decodeAudioData(request.response, function(buffer) {
-      this[height] = buffer;
-    }, onError);
-  }
-  this.playSound = function(buffer) {
-    var source = window.context.createBufferSource();
-    source.buffer = buffer;
-    source.connect(window.context.destination);
-    source.start(0);
-  };
+  this[height] = this[height] || new Audio("audio/" + height + browserFormat());
   return this[height];
 };
 Metronome.prototype.barInterval = function () {
