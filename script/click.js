@@ -1,21 +1,29 @@
 window.AudioContext = window.AudioContext || window.webkitAudioContext;
 var context = new AudioContext();
 
-Sequencer = {}
-
-Sequencer.timeout = function(callback, length) {
-  if (length <= 0) {
-    length = 1;
+Sequencer = {
+  timeout: function(callback, length) {
+    if (length <= 0) {
+      length = 1;
+    }
+    var source = context.createBufferSource();
+    source.buffer = context.createBuffer(1, 32000 * (length / 1000), 32000);
+    source.connect(context.destination);
+    source.onended = callback;
+    if (!source.stop) {
+      source.stop = source.noteOff;
+    }
+    if (!source.start) {
+      source.start = source.noteOn;
+    }
+    source.start(0);
+    return source;
+  },
+  clearTimeout: function(timeout){
+    timeout.stop();
   }
-  var source = context.createBufferSource();
-  source.buffer = context.createBuffer(1, 32000 * (length / 1000), 32000);
-  source.connect(context.destination);
-  source.onended = callback;
-  if (!source.start) {
-    source.start = source.noteOn;
-  }
-  source.start(0)
 };
+
 
 function createNewSound(height, parent) {
   var url = 'audio/' + height + browserFormat();
@@ -44,7 +52,7 @@ Metronome.prototype = {
   stop: function () {
     this.stopped = true;
     this.justStarted = true;
-    window.clearTimeout(this.timeout);
+    Sequencer.clearTimeout(this.timeout);
     this.stopBar();
   },
   mainLoop: function () {
@@ -124,7 +132,7 @@ Metronome.prototype.temp = function () {
 };
 Metronome.prototype.stopBar = function () {
   for (var i = 0; i < this.barNotes.length; i++) 
-    window.clearTimeout(this.barNotes[i]);
+    Sequencer.clearTimeout(this.barNotes[i]);
 };
 Metronome.prototype.listenEvents = function () {
   var metronome = this;
