@@ -4,6 +4,9 @@ var context = new AudioContext();
 Sequencer = {}
 
 Sequencer.timeout = function(callback, length) {
+  if (length <= 0) {
+    length = 1;
+  }
   var source = context.createBufferSource();
   source.buffer = context.createBuffer(1, 32000 * (length / 1000), 32000);
   source.connect(context.destination);
