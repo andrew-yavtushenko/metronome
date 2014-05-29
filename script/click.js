@@ -6,7 +6,7 @@ Sequencer = {}
 Sequencer.timeout = function(callback, length) {
   var source = context.createBufferSource();
   source.buffer = context.createBuffer(1, 32000 * (length / 1000), 32000);
-  source.connect context.destination;
+  source.connect(context.destination);
   source.onended = callback;
   if (!source.start) {
     source.start = source.noteOn;
