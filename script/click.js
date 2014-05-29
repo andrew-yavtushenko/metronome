@@ -1,6 +1,19 @@
 window.AudioContext = window.AudioContext || window.webkitAudioContext;
 var context = new AudioContext();
 
+Sequencer = {}
+
+Sequencer.timeout = function(callback, length) {
+  var source = context.createBufferSource();
+  source.buffer = context.createBuffer(1, 32000 * (length / 1000), 32000);
+  source.connect context.destination;
+  source.onended = callback;
+  if (!source.start) {
+    source.start = source.noteOn;
+  }
+  source.start(0)
+};
+
 function createNewSound(height, parent) {
   var url = 'audio/' + height + browserFormat();
   var request = new XMLHttpRequest();
@@ -33,7 +46,7 @@ Metronome.prototype = {
   },
   mainLoop: function () {
     var metronome = this;
-    this.timeout = window.setTimeout(function () {
+    this.timeout = Sequencer.timeout(function () {
       metronome.runMainLoop();
     }, this.barInterval());  
     return this;
@@ -50,7 +63,7 @@ Metronome.prototype = {
     metronome.barNotes = [];
     for (var i = 0; i < metronome.meter('beat'); i++) {
       (function (i) {
-        metronome.barNotes[i] = window.setTimeout(function () {
+        metronome.barNotes[i] = Sequencer.timeout(function () {
           metronome.playNote(i);
         },i*metronome.temp()/metronome.meter('value'))
       })(i);
