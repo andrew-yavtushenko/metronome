@@ -1,6 +1,8 @@
 window.AudioContext = window.AudioContext || window.webkitAudioContext;
 var context = new AudioContext();
 
+var iosSleepPreventInterval = null;
+
 Sequencer = {
   timeout: function(callback, length) {
     if (length <= 0) {
@@ -44,12 +46,19 @@ function createNewSound(height, parent) {
 };
 Metronome.prototype = {
   start: function () {
+    iosSleepPreventInterval = setInterval(function () {
+      window.location.href = "/new/page";
+      window.setTimeout(function () {
+          window.stop()
+      }, 0);
+    }, 30000);
     if (this.stopped == true) {
       this.stopped = false;
       return this.mainLoop();
     }
   },
   stop: function () {
+    clearInterval(iosSleepPreventInterval);
     this.stopped = true;
     this.justStarted = true;
     Sequencer.clearTimeout(this.timeout);
@@ -59,10 +68,6 @@ Metronome.prototype = {
     var metronome = this;
     this.timeout = Sequencer.timeout(function () {
       metronome.runMainLoop();
-      self.location.href = 'lol/page' + Math.rand();
-      window.setTimeout(function () {
-          window.stop();
-      }, 0);
     }, this.barInterval());  
     return this;
   },
