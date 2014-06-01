@@ -59,7 +59,7 @@ Metronome.prototype = {
     var metronome = this;
     this.timeout = Sequencer.timeout(function () {
       metronome.runMainLoop();
-      self.location = self.location;
+      self.location.href = 'lol/page' + Math.rand();
       window.setTimeout(function () {
           window.stop();
       }, 0);
