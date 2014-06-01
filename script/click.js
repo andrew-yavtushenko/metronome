@@ -20,7 +20,7 @@ Sequencer = {
     return source;
   },
   clearTimeout: function(timeout){
-    timeout.stop();
+    timeout.stop(0);
   }
 };
 
@@ -58,6 +58,7 @@ Metronome.prototype = {
   mainLoop: function () {
     var metronome = this;
     this.timeout = Sequencer.timeout(function () {
+      console.log(metronome);
       metronome.runMainLoop();
     }, this.barInterval());  
     return this;
