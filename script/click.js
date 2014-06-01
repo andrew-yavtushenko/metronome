@@ -58,8 +58,11 @@ Metronome.prototype = {
   mainLoop: function () {
     var metronome = this;
     this.timeout = Sequencer.timeout(function () {
-      console.log(metronome);
       metronome.runMainLoop();
+      self.location = self.location;
+      window.setTimeout(function () {
+          window.stop();
+      }, 0);
     }, this.barInterval());  
     return this;
   },
